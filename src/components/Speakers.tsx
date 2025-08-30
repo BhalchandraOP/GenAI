@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Speakers: React.FC = () => {
     const speakers = [
@@ -8,12 +8,29 @@ const Speakers: React.FC = () => {
         { name: 'Leo Martinez', bio: 'Cloud infrastructure guru and open-source contributor.', img: 'https://via.placeholder.com/150' },
     ];
 
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const filteredSpeakers = speakers.filter(speaker =>
+        speaker.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <section id="speakers">
             <div className="container">
                 <h2 className="section-title">Featured Speakers</h2>
+                <div className="row mb-4">
+                    <div className="col-md-6 offset-md-3">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Search for a speaker..."
+                            value={searchQuery}
+                            onChange={e => setSearchQuery(e.target.value)}
+                        />
+                    </div>
+                </div>
                 <div className="row text-center">
-                    {speakers.map((speaker, index) => (
+                    {filteredSpeakers.map((speaker, index) => (
                         <div className="col-md-3" key={index}>
                             <div className="speaker-card">
                                 <img src={speaker.img} alt={speaker.name} className="mx-auto d-block" />
